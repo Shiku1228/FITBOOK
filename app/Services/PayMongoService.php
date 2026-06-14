@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Http;
 class PayMongoService
 {
     protected string $baseUrl = 'https://api.paymongo.com/v1';
-    protected string $secretKey;
+    protected ?string $secretKey;
 
     public function __construct()
     {
@@ -19,6 +19,7 @@ class PayMongoService
         return [
             'Authorization' => 'Basic ' . base64_encode($this->secretKey . ':'),
             'Content-Type'  => 'application/json',
+            'Accept'        => 'application/json',
         ];
     }
 
@@ -35,16 +36,20 @@ class PayMongoService
                 ],
             ]);
 
+        if ($response->failed()) {
+            throw new \Exception('PayMongo API error: ' . $response->body());
+        }
+
         return $response->json();
     }
 
-    public function createCheckoutSession(float $amount, string $bookingRef, string $returnUrl): array
+    public function createCheckoutSession(float $amount, string $bookingRef, string $returnUrl, string $userEmail): array
     {
         $response = Http::withHeaders($this->headers())
             ->post("{$this->baseUrl}/checkout_sessions", [
                 'data' => [
                     'attributes' => [
-                        'billing'           => ['email' => auth()->user()->email],
+                        'billing'           => ['email' => $userEmail],
                         'send_email_receipt'=> false,
                         'show_description'  => true,
                         'show_line_items'   => true,
@@ -62,6 +67,22 @@ class PayMongoService
                     ],
                 ],
             ]);
+
+        if ($response->failed()) {
+            throw new \Exception('PayMongo API error: ' . $response->body());
+        }
+
+        return $response->json();
+    }
+
+    public function retrievePayment(string $paymentId): array
+    {
+        $response = Http::withHeaders($this->headers())
+            ->get("{$this->baseUrl}/payments/{$paymentId}");
+
+        if ($response->failed()) {
+            throw new \Exception('PayMongo API error: ' . $response->body());
+        }
 
         return $response->json();
     }

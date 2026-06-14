@@ -7,6 +7,7 @@ use App\Http\Controllers\Athlete\FacilitySearchController;
 use App\Http\Controllers\Athlete\CoachMatchController;
 use App\Http\Controllers\Athlete\BookingController;
 use App\Http\Controllers\Coach\ProfileController;
+use App\Http\Controllers\Payment\PayMongoController;
 use App\Http\Controllers\Coach\EarningsController;
 use App\Http\Controllers\Facility\FacilityController;
 use App\Http\Controllers\Facility\SlotController;
@@ -29,6 +30,10 @@ use App\Http\Controllers\Payment\WebhookController;
 // Public
 Route::post('/auth/register', [AuthController::class, 'register']);
 Route::post('/auth/login',    [AuthController::class, 'login']);
+
+// Webhooks
+Route::post('/webhooks/paymongo', [WebhookController::class, 'paymongo']);
+
 // Route::get('/facilities/nearby', [FacilitySearchController::class, 'nearby']);
 // Route::get('/facilities/{id}',   [FacilitySearchController::class, 'show']);
 // Route::get('/sports',            [SportController::class, 'index']);
@@ -54,7 +59,11 @@ Route::middleware(['auth:sanctum', 'role:athlete'])->prefix('athlete')->group(fu
     Route::post('/bookings',             [BookingController::class, 'store']);
     Route::get('/bookings',              [BookingController::class, 'index']);
     Route::delete('/bookings/{booking}', [BookingController::class, 'cancel']);
-    // Route::post('/payments/checkout',    [PaymentController::class, 'checkout']);
+
+    // Payment routes
+    Route::post('/payments/checkout',    [PayMongoController::class, 'checkout']);
+    Route::get('/payments/success',      [PayMongoController::class, 'success']);
+    Route::get('/payments/cancel',       [PayMongoController::class, 'cancel']);
     // Route::post('/reviews',              [ReviewController::class, 'store']);
 });
 
