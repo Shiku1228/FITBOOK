@@ -54,8 +54,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
 // Athlete routes
 Route::middleware(['auth:sanctum', 'role:athlete'])->prefix('athlete')->group(function () {
-    // Route::get('/coaches/match',         [CoachMatchController::class, 'match']);
-    // Route::get('/coaches/{id}',          [CoachMatchController::class, 'show']);
+    Route::get('/coaches/match',         [CoachMatchController::class, 'match']);
+    Route::get('/coaches/{id}',          [CoachMatchController::class, 'show']);
     Route::post('/bookings',             [BookingController::class, 'store']);
     Route::get('/bookings',              [BookingController::class, 'index']);
     Route::delete('/bookings/{booking}', [BookingController::class, 'cancel']);

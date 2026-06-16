@@ -5,9 +5,12 @@ namespace App\Services;
 use OpenAI\Laravel\Facades\OpenAI;
 use App\Models\CoachProfile;
 use App\Models\AthleteProfile;
+use App\Traits\HasVectorSimilarity;
 
 class OpenAICoachMatchService
 {
+    use HasVectorSimilarity;
+
     public function generateEmbedding(string $text): array
     {
         $response = OpenAI::embeddings()->create([
@@ -32,14 +35,6 @@ class OpenAICoachMatchService
         return "Athlete looking for {$sports} coaching. 
                 Skill level: {$athlete->skill_level}. Location: {$athlete->city}.
                 Goals: {$athlete->bio}";
-    }
-
-    public function cosineSimilarity(array $a, array $b): float
-    {
-        $dot = array_sum(array_map(fn($x, $y) => $x * $y, $a, $b));
-        $normA = sqrt(array_sum(array_map(fn($x) => $x ** 2, $a)));
-        $normB = sqrt(array_sum(array_map(fn($x) => $x ** 2, $b)));
-        return $normA && $normB ? $dot / ($normA * $normB) : 0.0;
     }
 
     public function getTopMatches(AthleteProfile $athlete, int $limit = 10): array
