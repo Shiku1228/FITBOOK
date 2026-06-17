@@ -27,13 +27,13 @@ class BookingController extends Controller
             'slot_id' => 'required|uuid|exists:facility_slots,id',
             'type'    => 'required|string|in:facility,coach',
             'notes'   => 'nullable|string|max:500',
-        ]);
-
+            
+            ]);
         return DB::transaction(function () use ($request, $data) {
             // 2. Find the slot and check it's available
             $slot = FacilitySlot::with('facility')->lockForUpdate()->findOrFail($data['slot_id']);
 
-            if ($slot->status !== SlotStatus::Available->value) {
+            if ($slot->status !== SlotStatus::Available) {
                 return response()->json(['message' => 'Slot is no longer available'], Response::HTTP_CONFLICT);
             }
 
@@ -65,7 +65,7 @@ class BookingController extends Controller
             ]);
 
             // 6. Update slot status to 'reserved' in MySQL
-            $slot->update(['status' => SlotStatus::Reserved->value]);
+            $slot->update(['status' => SlotStatus::Reserved]);
 
             // 7. Sync slot status to Firebase
             $this->firebase->syncSlot($slot->facility_id, $slot->id, SlotStatus::Reserved->value);
@@ -108,7 +108,7 @@ class BookingController extends Controller
             // 4. Release the slot back to 'available'
             $slot = $booking->slot;
             if ($slot) {
-                $slot->update(['status' => SlotStatus::Available->value]);
+                $slot->update(['status' => SlotStatus::Available]);
 
                 // 5. Sync Firebase
                 $this->firebase->syncSlot($slot->facility_id, $slot->id, SlotStatus::Available->value);

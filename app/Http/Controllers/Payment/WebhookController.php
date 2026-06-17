@@ -8,16 +8,20 @@ use App\Enums\PaymentGateway;
 use App\Enums\SlotStatus;
 use App\Models\Booking;
 use App\Models\Payment;
+use App\Mail\BookingConfirmedMail;
+use App\Services\FCMService;
 use App\Services\FirebaseService;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class WebhookController extends Controller
 {
     public function __construct(
-        protected FirebaseService $firebase
+        protected FirebaseService $firebase,
+        protected FCMService $fcm
     ) {}
 
     public function paymongo(Request $request): JsonResponse
@@ -100,9 +104,21 @@ class WebhookController extends Controller
 
         if (!$referenceNumber) return;
 
-        $booking = Booking::where('booking_ref', $referenceNumber)->first();
+        $booking = Booking::where('booking_ref', $referenceNumber)
+            ->with(['athlete', 'facility', 'slot'])
+            ->first();
 
         if (!$booking) return;
+
+        // Check if payment already exists to prevent duplicates
+        $existingPayment = Payment::where('gateway', PaymentGateway::PayMongo->value)
+            ->where('gateway_payment_id', $event['data']['id'] ?? '')
+            ->first();
+
+        if ($existingPayment) {
+            Log::info('Duplicate webhook received, skipping: ' . ($event['data']['id'] ?? 'unknown'));
+            return;
+        }
 
         DB::transaction(function () use ($booking, $event) {
             // Update booking status to confirmed using Enums
@@ -119,7 +135,7 @@ class WebhookController extends Controller
             Payment::create([
                 'booking_id'        => $booking->id,
                 'payer_id'          => $booking->athlete_id,
-                'gateway'           => PaymentGateway::PayMongo,
+                'gateway'           => PaymentGateway::PayMongo->value,
                 'gateway_payment_id'=> $event['data']['id'] ?? '',
                 'amount'            => $booking->total_amount,
                 'currency'          => $booking->currency,
@@ -129,6 +145,28 @@ class WebhookController extends Controller
                 'webhook_payload'   => $event,
             ]);
         });
+
+        // Send email notification
+        try {
+            Log::info('Attempting to send email for booking: ' . $booking->booking_ref);
+            Mail::to($booking->athlete->email)
+                ->send(new BookingConfirmedMail($booking));
+            Log::info('Email sent successfully for booking: ' . $booking->booking_ref);
+        } catch (\Throwable $e) {
+            Log::error('Email notification failed: ' . $e->getMessage());
+        }
+
+        // Send FCM push notification
+        try {
+            if ($booking->athlete->fcm_token) {
+                $this->fcm->sendBookingConfirmed(
+                    $booking->athlete->fcm_token,
+                    $booking->booking_ref
+                );
+            }
+        } catch (\Throwable $e) {
+            Log::error('FCM notification failed: ' . $e->getMessage());
+        }
     }
 
     protected function handlePaymentFailed(array $event): void
