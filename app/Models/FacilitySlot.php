@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\SlotStatus;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -29,6 +30,7 @@ class FacilitySlot extends Model
             'end_datetime' => 'datetime',
             'price_override' => 'float',
             'firebase_synced_at' => 'datetime',
+            'status' => SlotStatus::class,
         ];
     }
     

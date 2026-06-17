@@ -51,4 +51,8 @@ return [
         'embedding_model' => env('OLLAMA_EMBEDDING_MODEL', 'nomic-embed-text'),
         'text_model'      => env('OLLAMA_TEXT_MODEL', 'llama3.2'),
     ],
+
+    'google_maps' => [
+    'api_key' => env('GOOGLE_MAPS_API_KEY'),
+    ],
 ];

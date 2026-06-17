@@ -34,8 +34,8 @@ Route::post('/auth/login',    [AuthController::class, 'login']);
 // Webhooks
 Route::post('/webhooks/paymongo', [WebhookController::class, 'paymongo']);
 
-// Route::get('/facilities/nearby', [FacilitySearchController::class, 'nearby']);
-// Route::get('/facilities/{id}',   [FacilitySearchController::class, 'show']);
+Route::get('/facilities/nearby', [FacilitySearchController::class, 'nearby']);
+Route::get('/facilities/{id}',   [FacilitySearchController::class, 'show']);
 // Route::get('/sports',            [SportController::class, 'index']);
 
 Route::middleware('auth:sanctum')->group(function () {
