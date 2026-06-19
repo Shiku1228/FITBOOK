@@ -4,15 +4,15 @@
 
 | Layer | Technology |
 |---|---|
-| Backend | Laravel 11 (PHP 8.3) |
+| Backend | Laravel 11 (PHP 8.2) |
 | Database | MySQL 8 (Local/XAMPP) + Redis (Local) |
 | File Storage | Local Public Storage / Cloudinary |
-| Queue / Email | Redis (Local) + SMTP (Mailtrap/Gmail) |
+| Queue / Email | Sync (local) + Mailtrap SMTP |
 | Real-time | Firebase RTDB + FCM |
 | Maps | Google Maps API |
 | Payments | PayMongo (GCash/cards PH) + Stripe (international) |
-| AI Matching | Ollama (Llama 3.2 + Nomic Embed) |
-| Infra | Cloudify / VPS + GitHub Actions CI/CD |
+| AI Matching | Ollama llama3.2 (text) + Ollama nomic-embed-text (embeddings) |
+| Infra | GitHub + Docker (planned) |
 
 ---
 
@@ -716,10 +716,10 @@ PAYMONGO_WEBHOOK_SECRET=
 STRIPE_KEY=
 STRIPE_SECRET=
 STRIPE_WEBHOOK_SECRET=
-# AI (Gemini + HuggingFace)
-GEMINI_API_KEY=
-HUGGINGFACE_API_KEY=
-HUGGINGFACE_EMBEDDING_MODEL=sentence-transformers/all-MiniLM-L6-v2
+# AI (Ollama)
+OLLAMA_BASE_URL=http://localhost:11434
+OLLAMA_EMBEDDING_MODEL=nomic-embed-text
+OLLAMA_TEXT_MODEL=llama3.2
 
 # Platform Fee (percentage)
 PLATFORM_FEE_PERCENTAGE=10
@@ -729,20 +729,46 @@ PLATFORM_FEE_PERCENTAGE=10
 
 ## Implementation Phases
 
-### Phase 1 — Foundation (Weeks 1–3)
+### Phase 1 — Foundation (Weeks 1–3) — COMPLETED
 - Auth (Sanctum + roles), user registration flows, Cloudinary upload pipeline, base migrations
 
-### Phase 2 — Core Booking (Weeks 4–6)
+### Phase 2 — Core Booking (Weeks 4–6) — COMPLETED
 - Facility CRUD, slot management, Firebase RTDB real-time sync, booking flow (reserve → pay → confirm)
 
-### Phase 3 — Payments (Weeks 7–8)
+### Phase 3 — Payments (Weeks 7–8) — COMPLETED
 - PayMongo GCash/card checkout, Stripe international, webhook handlers, payout logic
 
-### Phase 4 — AI & Maps (Weeks 9–10)
+### Phase 4 — AI & Maps (Weeks 9–10) — COMPLETED
 - Ollama text generation and embedding generation, coach matching endpoint, Google Maps nearby search with geospatial filtering
 
-### Phase 5 — Notifications & Admin (Weeks 11–12)
+### Phase 5 — Notifications & Admin (Weeks 11–12) — COMPLETED
 - FCM push via Redis jobs, SMTP email templates, admin dashboard, verification workflows, reporting
 
-### Phase 6 — Hardening (Weeks 13–14)
+### Phase 6 — Hardening (Weeks 13–14) — IN PROGRESS
 - Rate limiting, idempotency keys on payments, load testing, CI/CD pipeline, staging → production deploy
+
+---
+
+## What's Built vs Planned
+
+**Built and tested:**
+- Auth + role-based access (Sanctum)
+- Facility CRUD + slot management
+- Firebase RTDB real-time slot sync
+- Booking flow with race condition protection
+- PayMongo GCash/card payments + webhook
+- Cloudinary media uploads
+- Ollama AI coach matching (embeddings + text)
+- Google Maps nearby facility search
+- FCM push notification service
+- Mailtrap email notifications
+- Admin panel (users, verification, reports)
+
+**Planned for future:**
+- Stripe international payments
+- Redis queue for background jobs
+- Docker containerization
+- GitHub Actions CI/CD
+- Production deployment
+- Frontend (Vue.js or React)
+- Review and rating system
