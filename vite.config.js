@@ -6,7 +6,7 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineConfig({
     plugins: [
         laravel({
-            input: ['resources/css/app.css', 'resources/js/app.js', 'resources/js/landing.jsx', 'resources/js/dashboard.jsx'],
+            input: ['resources/css/app.css', 'resources/js/app.js', 'resources/js/landing.jsx', 'resources/js/dashboard.jsx', 'resources/js/owner-dashboard.jsx'],
             refresh: true,
         }),
         react(),

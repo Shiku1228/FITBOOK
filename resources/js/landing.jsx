@@ -1,7 +1,7 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { motion } from 'framer-motion';
-import Plasma from './components/Plasma';
+import { Plasma } from './components/Plasma';
 
 const SplitText = ({ text, className, delay = 0 }) => {
     // A simplified split text effect inspired by React Bits
@@ -50,17 +50,26 @@ if (titleRoot) {
 }
 
 // Mount Plasma background
-const bgRoot = document.getElementById('react-hero-bg');
-if (bgRoot) {
-    const root = createRoot(bgRoot);
-    root.render(
-        <Plasma 
-            color="#CAFF00" // using the lime color for the plasma
-            speed={1}
-            direction="forward"
-            scale={1}
-            opacity={0.3} // keeping it subtle since it's a background
-            mouseInteractive={false}
-        />
-    );
+const mountPlasma = () => {
+    const bgRoot = document.getElementById('react-hero-bg');
+    if (bgRoot && !bgRoot.hasChildNodes()) {
+        const root = createRoot(bgRoot);
+        root.render(
+            <Plasma
+                color="#CAFF00"
+                speed={2}
+                direction="forward"
+                scale={1}
+                opacity={0.8}
+                mouseInteractive={true}
+            />
+        );
+    }
+};
+
+// Mount immediately if DOM is ready, otherwise wait
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', mountPlasma);
+} else {
+    mountPlasma();
 }

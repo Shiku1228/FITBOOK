@@ -1,14 +1,14 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
-import AthleteDashboard from './components/AthleteDashboard/index.jsx';
+import OwnerDashboard from './components/OwnerDashboard/index.jsx';
 
-const rootElement = document.getElementById('dashboard-root');
+const rootElement = document.getElementById('owner-dashboard-root');
 if (rootElement) {
     const root = createRoot(rootElement);
     root.render(
-        <BrowserRouter basename="/athlete">
-            <AthleteDashboard />
+        <BrowserRouter basename="/facility_owner">
+            <OwnerDashboard />
         </BrowserRouter>
     );
 }

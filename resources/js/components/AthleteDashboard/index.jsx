@@ -1,8 +1,8 @@
 import React from "react";
-import { Search, Bell, Menu, Settings } from "lucide-react";
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Search, Bell, Menu, Settings, LogOut } from "lucide-react";
+import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import { T, css } from "./theme";
-import Sidebar from "./components/Sidebar";
+import Sidebar from "../Shared/Sidebar";
 import DashboardHome from "./pages/DashboardHome.jsx";
 import SearchPage from "./pages/SearchPage";
 import AIMatchPage from "./pages/AIMatchPage";
@@ -23,7 +23,24 @@ const pageTitleMap = {
 
 export default function AthleteDashboard() {
   const location = useLocation();
+  const navigate = useNavigate();
   const pageTitle = pageTitleMap[location.pathname] || "Dashboard";
+
+  const handleLogout = async () => {
+    try {
+      await fetch('/auth/logout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content'),
+        },
+      });
+      window.location.href = '/auth';
+    } catch (error) {
+      console.error('Logout error:', error);
+      window.location.href = '/auth';
+    }
+  };
 
   return (
     <>
@@ -42,6 +59,9 @@ export default function AthleteDashboard() {
               <span className="notif-dot" />
             </div>
             <div className="topbar-icon-btn"><Settings size={18} /></div>
+            <div className="topbar-icon-btn" onClick={handleLogout} style={{ cursor: 'pointer' }} title="Logout">
+              <LogOut size={18} />
+            </div>
             <div className="avatar-circle" style={{ width: 36, height: 36, fontSize: 14 }}>RL</div>
           </div>
           <div className="page-content">

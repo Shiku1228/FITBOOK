@@ -1,23 +1,22 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('fitbook-landing');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-});
+Route::get('/auth', function () {
+    return view('auth');
+})->name('login');
 
-Route::get('/courts', function () {
-    return view('dashboard');
-});
+Route::post('/auth/login', [AuthController::class, 'webLogin'])->name('auth.login');
 
-Route::get('/ai-match', function () {
-    return view('dashboard');
-});
+Route::post('/auth/logout', [AuthController::class, 'webLogout'])->name('auth.logout');
 
-Route::get('/bookings', function () {
-    return view('dashboard');
-});
+// Load role-specific routes
+require __DIR__.'/athlete.php';
+require __DIR__.'/facility_owner.php';
+require __DIR__.'/coach.php';
+require __DIR__.'/admin.php';

@@ -76,4 +76,52 @@ class AuthController extends Controller
 
         return response()->json(['message' => 'Logged out successfully'], Response::HTTP_OK);
     }
+
+    /**
+     * Web login for session-based authentication.
+     */
+    public function webLogin(Request $request)
+    {
+        $data = $request->validate([
+            'email'    => ['required', 'string', 'email'],
+            'password' => ['required', 'string'],
+        ]);
+
+        if (auth()->attempt($data)) {
+            $request->session()->regenerate();
+
+            // Redirect based on user role
+            $user = auth()->user();
+            $role = $user->role instanceof \BackedEnum ? $user->role->value : $user->role;
+            \Log::info('User logged in', ['email' => $user->email, 'role' => $role]);
+
+            $redirectPath = match($role) {
+                'athlete' => '/athlete/dashboard',
+                'facility_owner' => '/facility_owner/dashboard',
+                'coach' => '/coach/dashboard',
+                'admin' => '/admin/dashboard',
+                default => '/athlete/dashboard',
+            };
+
+            \Log::info('Redirecting to', ['path' => $redirectPath]);
+
+            return redirect()->intended($redirectPath);
+        }
+
+        return back()->withErrors([
+            'email' => 'The provided credentials do not match our records.',
+        ]);
+    }
+
+    /**
+     * Web logout for session-based authentication.
+     */
+    public function webLogout(Request $request)
+    {
+        auth()->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/auth');
+    }
 }

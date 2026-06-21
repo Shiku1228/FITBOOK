@@ -15,7 +15,10 @@ class RoleMiddleware
         $user = $request->user();
 
         if (!$user || !in_array($user->role->value, $roles)){
-            return response()->json(['message' => 'Unauthorized'], Response::HTTP_FORBIDDEN);
+            if ($request->expectsJson()) {
+                return response()->json(['message' => 'Unauthorized'], Response::HTTP_FORBIDDEN);
+            }
+            return redirect('/auth')->with('error', 'You do not have permission to access this page.');
         }
 
         return $next($request);

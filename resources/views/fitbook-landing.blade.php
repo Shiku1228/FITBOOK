@@ -701,14 +701,14 @@
     <li><a href="#ai">AI match</a></li>
   </ul>
   <div class="nav-cta">
-    <a href="/dashboard" class="btn btn-ghost" style="padding: 10px 20px; font-size: 14px;">Log in</a>
-    <a href="#" class="btn btn-lime" style="padding: 10px 20px; font-size: 14px;">Sign up free</a>
+    <a href="/auth" class="btn btn-ghost" style="padding: 10px 20px; font-size: 14px;">Log in</a>
+    <a href="/auth" class="btn btn-lime" style="padding: 10px 20px; font-size: 14px;">Sign up free</a>
   </div>
 </nav>
 
 <!-- ─── HERO ─────────────────────────────────────────── -->
 <section id="hero">
-  <div class="hero-bg" id="react-hero-bg" style="z-index: 0;"></div>
+  <div class="hero-bg" id="react-hero-bg" style="z-index: -2; background: none; width: 100%; height: 100%;"></div>
   <div class="hero-court"></div>
   <div class="hero-court-line"></div>
 
