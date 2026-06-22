@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import { LayoutDashboard, MapPin, Bot, CalendarDays, CreditCard, Bell, User, Building2, CalendarClock, DollarSign, Star, Settings } from "lucide-react";
+import { LayoutDashboard, MapPin, Bot, CalendarDays, CreditCard, Bell, User, Building2, CalendarClock, DollarSign, Star, Settings, Calendar, Dumbbell, Wallet, Trophy } from "lucide-react";
 import { T } from "../AthleteDashboard/theme";
 
 // Athlete navigation items
@@ -25,6 +25,16 @@ const OWNER_NAV_ITEMS = [
   { label: "Profile", icon: <User size={18} />, key: "profile" },
 ];
 
+// Coach navigation items
+const COACH_NAV_ITEMS = [
+  { label: "Dashboard", icon: <LayoutDashboard size={18} />, key: "dashboard" },
+  { label: "My Sessions", icon: <Calendar size={18} />, key: "sessions", badge: "3" },
+  { label: "Availability", icon: <CalendarClock size={18} />, key: "availability" },
+  { label: "Earnings", icon: <Wallet size={18} />, key: "earnings" },
+  { label: "Reviews", icon: <Star size={18} />, key: "reviews", badge: "3" },
+  { label: "Profile", icon: <User size={18} />, key: "profile" },
+];
+
 const routeMap = {
   // Athlete routes
   dashboard: "/dashboard",
@@ -39,11 +49,14 @@ const routeMap = {
   facilities: "/facilities",
   earnings: "/earnings",
   reviews: "/reviews",
+  // Coach routes
+  sessions: "/sessions",
+  availability: "/availability",
 };
 
 export default function Sidebar({ role = "athlete" }) {
   const location = useLocation();
-  const navItems = role === "athlete" ? ATHLETE_NAV_ITEMS : OWNER_NAV_ITEMS;
+  const navItems = role === "athlete" ? ATHLETE_NAV_ITEMS : role === "owner" ? OWNER_NAV_ITEMS : COACH_NAV_ITEMS;
 
   const getActiveKey = () => {
     const path = location.pathname;
@@ -58,6 +71,8 @@ export default function Sidebar({ role = "athlete" }) {
     if (path === "/facilities") return "facilities";
     if (path === "/earnings") return "earnings";
     if (path === "/reviews") return "reviews";
+    if (path === "/sessions") return "sessions";
+    if (path === "/availability") return "availability";
     return "dashboard";
   };
 
@@ -66,7 +81,7 @@ export default function Sidebar({ role = "athlete" }) {
   return (
     <aside className="sidebar">
       <div className="sidebar-logo">Fit<span>Book</span></div>
-      <div className="sidebar-section-label">{role === "athlete" ? "Main Menu" : "Management"}</div>
+      <div className="sidebar-section-label">{role === "athlete" ? "Main Menu" : role === "owner" ? "Management" : "Coach Panel"}</div>
       <nav className="sidebar-nav">
         {navItems.map(item => (
           <Link
@@ -84,7 +99,7 @@ export default function Sidebar({ role = "athlete" }) {
         <div className="avatar-circle">JD</div>
         <div>
           <div className="avatar-name">Juan dela Cruz</div>
-          <div className="avatar-role">{role === "athlete" ? "Athlete" : "Facility Owner"}</div>
+          <div className="avatar-role">{role === "athlete" ? "Athlete" : role === "owner" ? "Facility Owner" : "Coach"}</div>
         </div>
       </div>
     </aside>
