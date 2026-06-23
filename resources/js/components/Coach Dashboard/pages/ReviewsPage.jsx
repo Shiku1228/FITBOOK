@@ -1,4 +1,5 @@
-import { T, REVIEWS } from '../theme';
+import { T } from '../../AthleteDashboard/theme.jsx';
+import { REVIEWS } from '../theme';
 import { Star } from "lucide-react";
 
 export default function ReviewsPage() {

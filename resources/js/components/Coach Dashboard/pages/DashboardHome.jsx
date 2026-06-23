@@ -1,4 +1,5 @@
-import { T, MONTHLY, WEEK_SLOTS, BOOKED_SLOTS, SESSIONS, REVIEWS } from '../theme';
+import { T } from '../../AthleteDashboard/theme.jsx';
+import { MONTHLY, WEEK_SLOTS, BOOKED_SLOTS, SESSIONS, REVIEWS } from '../theme';
 import { Dumbbell, Hand, Star } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
@@ -9,7 +10,7 @@ export default function DashboardHome() {
     <>
       <div className="greeting">
         <div>
-          <div className="g-text">Good morning, <span>Coach Ramon</span> <Hand className="inline-block" size={24} /></div>
+          <div className="g-text">Good morning, <span>Coach Ramon</span></div>
           <div className="g-sub">Sunday, June 21, 2026 · You have 2 sessions today</div>
         </div>
         <button className="btn-lime" onClick={()=>navigate("/availability")}>+ Add availability</button>

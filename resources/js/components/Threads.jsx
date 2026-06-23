@@ -20,6 +20,7 @@ uniform vec3 uColor;
 uniform float uAmplitude;
 uniform float uDistance;
 uniform vec2 uMouse;
+uniform float uVerticalOffset;
 
 #define PI 3.1415926538
 

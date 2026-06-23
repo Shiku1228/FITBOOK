@@ -1,4 +1,5 @@
-import { T, CERTS } from '../theme';
+import { T } from '../../AthleteDashboard/theme.jsx';
+import { CERTS } from '../theme';
 import { Award, ScrollText, GraduationCap, X } from "lucide-react";
 
 export default function ProfilePage() {

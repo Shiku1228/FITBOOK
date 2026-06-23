@@ -1,4 +1,4 @@
-export { T, css } from '../AthleteDashboard/theme';
+import { T } from '../AthleteDashboard/theme.jsx';
 
 // Coach-specific CSS additions
 export const coachCss = `
@@ -88,6 +88,104 @@ export const coachCss = `
     background:rgba(202,255,0,0.15); color:${T.lime};
     font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:34px;
     display:flex; align-items:center; justify-content:center; margin:0 auto 14px;
+  }
+
+  /* Dropdown panels */
+  .dropdown-panel {
+    position:absolute !important;
+    top:45px !important; right:0 !important;
+    background:${T.cardBg};
+    border:1px solid rgba(255,255,255,0.1);
+    border-radius:12px;
+    box-shadow:0 8px 32px rgba(0,0,0,0.4);
+    min-width:280px;
+    max-width:360px;
+    z-index:9999 !important;
+    animation:slideDown 0.2s ease;
+  }
+  @keyframes slideDown {
+    from { opacity:0; transform:translateY(-8px); }
+    to { opacity:1; transform:translateY(0); }
+  }
+  .dropdown-header {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:14px 18px;
+    border-bottom:1px solid rgba(255,255,255,0.06);
+  }
+  .dropdown-title {
+    font-family:'Barlow Condensed',sans-serif;
+    font-size:14px;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:0.04em;
+  }
+  .dropdown-action {
+    font-size:11px;
+    color:${T.lime};
+    cursor:pointer;
+    font-weight:600;
+  }
+  .dropdown-action:hover { text-decoration:underline; }
+  .dropdown-body {
+    padding:8px 0;
+    max-height:400px;
+    overflow-y:auto;
+  }
+  .dropdown-body::-webkit-scrollbar { width:6px; }
+  .dropdown-body::-webkit-scrollbar-track { background:${T.navy3}; }
+  .dropdown-body::-webkit-scrollbar-thumb { background:${T.navy2}; border-radius:3px; }
+  .dropdown-body::-webkit-scrollbar-thumb:hover { background:${T.muted}; }
+
+  /* Notifications dropdown */
+  .notif-dropdown { right:100px; }
+  .notif-item {
+    display:flex;
+    gap:12px;
+    padding:12px 18px;
+    border-bottom:1px solid rgba(255,255,255,0.04);
+    cursor:pointer;
+    transition:background 0.15s;
+  }
+  .notif-item:last-child { border-bottom:none; }
+  .notif-item:hover { background:rgba(255,255,255,0.04); }
+  .notif-dot-icon {
+    width:8px; height:8px;
+    border-radius:50%;
+    margin-top:5px;
+    flex-shrink:0;
+  }
+  .notif-text {
+    font-size:13px;
+    line-height:1.5;
+    color:rgba(255,255,255,0.9);
+  }
+  .notif-text strong { color:${T.white}; }
+  .notif-time {
+    font-size:11px;
+    color:${T.muted};
+    margin-top:4px;
+  }
+
+  /* Settings dropdown */
+  .settings-dropdown { right:60px; }
+  .settings-item {
+    padding:10px 18px;
+    font-size:13px;
+    font-weight:500;
+    color:${T.white};
+    cursor:pointer;
+    transition:background 0.15s;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .settings-item:hover { background:rgba(255,255,255,0.06); }
+  .settings-divider {
+    height:1px;
+    background:rgba(255,255,255,0.08);
+    margin:6px 0;
   }
 
   @media(max-width:1100px){ .two-col,.two-col-eq{ grid-template-columns:1fr; } .stats-row{ grid-template-columns:repeat(2,1fr); } }

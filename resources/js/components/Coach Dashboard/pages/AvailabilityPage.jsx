@@ -1,4 +1,5 @@
-import { T, WEEK_SLOTS } from '../theme';
+import { T } from '../../AthleteDashboard/theme.jsx';
+import { WEEK_SLOTS } from '../theme';
 
 export default function AvailabilityPage() {
   const days = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];

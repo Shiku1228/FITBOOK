@@ -1,4 +1,5 @@
-import { T, TRANSACTIONS } from '../theme';
+import { T } from '../../AthleteDashboard/theme.jsx';
+import { TRANSACTIONS } from '../theme';
 
 export default function EarningsPage() {
   return (

@@ -56,7 +56,7 @@ const routeMap = {
 
 export default function Sidebar({ role = "athlete" }) {
   const location = useLocation();
-  const navItems = role === "athlete" ? ATHLETE_NAV_ITEMS : role === "owner" ? OWNER_NAV_ITEMS : COACH_NAV_ITEMS;
+  const navItems = role === "athlete" ? ATHLETE_NAV_ITEMS : role === "facility_owner" ? OWNER_NAV_ITEMS : COACH_NAV_ITEMS;
 
   const getActiveKey = () => {
     const path = location.pathname;
@@ -81,7 +81,7 @@ export default function Sidebar({ role = "athlete" }) {
   return (
     <aside className="sidebar">
       <div className="sidebar-logo">Fit<span>Book</span></div>
-      <div className="sidebar-section-label">{role === "athlete" ? "Main Menu" : role === "owner" ? "Management" : "Coach Panel"}</div>
+      <div className="sidebar-section-label">{role === "athlete" ? "Main Menu" : role === "facility_owner" ? "Management" : "Coach Panel"}</div>
       <nav className="sidebar-nav">
         {navItems.map(item => (
           <Link
@@ -99,7 +99,7 @@ export default function Sidebar({ role = "athlete" }) {
         <div className="avatar-circle">JD</div>
         <div>
           <div className="avatar-name">Juan dela Cruz</div>
-          <div className="avatar-role">{role === "athlete" ? "Athlete" : role === "owner" ? "Facility Owner" : "Coach"}</div>
+          <div className="avatar-role">{role === "athlete" ? "Athlete" : role === "facility_owner" ? "Facility Owner" : "Coach"}</div>
         </div>
       </div>
     </aside>

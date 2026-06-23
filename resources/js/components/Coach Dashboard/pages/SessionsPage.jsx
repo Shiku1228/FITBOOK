@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { T, SESSIONS } from '../theme';
+import { T } from '../../AthleteDashboard/theme.jsx';
+import { SESSIONS } from '../theme';
 
 export default function SessionsPage() {
   const [tab, setTab] = useState("upcoming");
