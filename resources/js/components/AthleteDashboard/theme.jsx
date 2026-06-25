@@ -390,6 +390,9 @@ export const css = `
   /* ── FACILITY CARD ── */
   .facility-card {
     width: 100%;
+    appearance: none;
+    border: 1px solid rgba(255,255,255,0.07);
+    outline: none;
     border: 1px solid rgba(255,255,255,0.07);
     border-radius: 16px;
     background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));

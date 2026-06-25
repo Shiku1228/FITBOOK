@@ -62,9 +62,11 @@ export default function SearchPage() {
               ))}
               <span className="map-label" style={{ zIndex: 10 }}>Google Maps · {filtered.length} pins</span>
             </div>
-            {filtered.map(f => (
-              <FacilityRow key={f.id} f={f} onBook={() => setSelectedFac(f)} />
-            ))}
+            <div className="search-results-list">
+              {filtered.map(f => (
+                <FacilityRow key={f.id} f={f} onBook={() => setSelectedFac(f)} />
+              ))}
+            </div>
           </div>
         </div>
 
