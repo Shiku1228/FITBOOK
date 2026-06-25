@@ -9,4 +9,5 @@ Route::middleware(['auth', 'role:coach'])->prefix('coach')->group(function () {
     Route::get('/schedule', [DashboardController::class, 'index'])->name('schedule');
     Route::get('/sessions', [DashboardController::class, 'index'])->name('sessions');
     Route::get('/profile', [DashboardController::class, 'index'])->name('profile');
+    Route::get('/{any}', [DashboardController::class, 'index'])->where('any', '.*');
 });

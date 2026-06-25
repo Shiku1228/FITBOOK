@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { User, Dumbbell, Building2, Mail, Phone, Lock, Eye, EyeOff, Check, PartyPopper, Loader2 } from 'lucide-react';
 import Threads from './Threads';
+import TextType from './TextType';
 
 const css = `
   @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;900&family=Inter:wght@400;500;600&display=swap');
@@ -651,7 +652,17 @@ export default function AuthPage() {
             ) : (
               <>
                 <div className="form-heading">
-                  {isRegister ? <>Create your <span>account</span></> : <>Welcome <span>back</span></>}
+                  {isRegister ? (
+                    <>Create your <span>account</span></>
+                  ) : (
+                    <TextType
+                      text={["Welcome back", "Log in to FitBook"]}
+                      typingSpeed={100}
+                      pauseDuration={2000}
+                      loop={false}
+                      className="inline"
+                    />
+                  )}
                 </div>
                 <div className="form-sub">
                   {isRegister

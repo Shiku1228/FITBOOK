@@ -136,6 +136,7 @@ export const css = `
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    overflow-x: hidden;
   }
 
   /* ── TOPBAR ── */
@@ -213,7 +214,7 @@ export const css = `
   }
 
   /* ── PAGE CONTENT ── */
-  .page-content { padding: 28px; flex: 1; }
+  .page-content { padding: 28px; flex: 1; overflow-x: hidden; }
 
   /* ── GREETING ── */
   .greeting-bar {
@@ -255,11 +256,11 @@ export const css = `
 
   /* ── STAT CARDS ── */
   .stats-row {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 14px;
-    margin-bottom: 28px;
-  }
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 14px;
+      margin-bottom: 28px;
+    }
   .stat-card {
     background: ${T.cardBg};
     border: 1px solid rgba(255,255,255,0.06);
@@ -277,7 +278,19 @@ export const css = `
   .stat-card-sub { font-size: 12px; color: ${T.muted}; margin-top: 6px; }
 
   /* ── TWO-COL LAYOUT ── */
-  .two-col { display: grid; grid-template-columns: 1fr 380px; gap: 20px; margin-bottom: 20px; }
+  .two-col {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+  .search-layout {
+    grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.85fr);
+    align-items: start;
+  }
+  .two-col > * {
+    min-width: 0;
+  }
   .three-col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
 
   /* ── CARD SHELL ── */
@@ -285,7 +298,15 @@ export const css = `
     background: ${T.cardBg};
     border: 1px solid rgba(255,255,255,0.06);
     border-radius: 14px;
+    overflow: visible;
+  }
+  .search-results-card {
     overflow: hidden;
+  }
+  .search-results-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
   }
   .card-header {
     display: flex;
@@ -302,7 +323,7 @@ export const css = `
     letter-spacing: 0.04em;
   }
   .card-link { font-size: 12px; color: ${T.lime}; cursor: pointer; font-weight: 500; }
-  .card-body { padding: 20px; }
+  .card-body { padding: 16px; }
 
   /* ── SEARCH PANEL ── */
   .search-panel {
@@ -366,51 +387,152 @@ export const css = `
     color: ${T.lime};
   }
 
-  /* ── FACILITY RESULT ── */
-  .facility-result {
-    display: flex;
-    gap: 14px;
-    padding: 14px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.05);
+  /* ── FACILITY CARD ── */
+  .facility-card {
+    width: 100%;
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 16px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+    overflow: hidden;
+    text-align: left;
     cursor: pointer;
-    transition: all 0.15s;
-    border-radius: 8px;
+    padding: 0;
+    color: inherit;
+    transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
   }
-  .facility-result:last-child { border-bottom: none; }
-  .facility-result:hover { background: rgba(255,255,255,0.03); padding-left: 8px; }
-  .fac-thumb {
-    width: 72px; height: 60px;
-    border-radius: 8px;
-    flex-shrink: 0;
+  .facility-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(202,255,0,0.28);
+    background: linear-gradient(180deg, rgba(202,255,0,0.06), rgba(255,255,255,0.02));
+  }
+  .facility-card-media {
+    min-height: 128px;
+    padding: 16px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    background: ${T.navy3};
+    position: relative;
+  }
+  .facility-card-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 14px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 24px;
+    background: rgba(10, 22, 40, 0.2);
+    border: 1px solid rgba(255,255,255,0.1);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+    flex-shrink: 0;
   }
-  .fac-info { flex: 1; min-width: 0; }
-  .fac-name { font-size: 14px; font-weight: 600; margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .fac-loc { font-size: 12px; color: ${T.muted}; margin-bottom: 6px; }
-  .fac-meta { display: flex; gap: 10px; align-items: center; }
-  .fac-sport-tag {
+  .facility-card-price {
+    margin-left: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 34px;
+    font-weight: 900;
+    line-height: 0.9;
+    color: ${T.white};
+    text-shadow: 0 2px 12px rgba(0,0,0,0.2);
+  }
+  .facility-card-price span {
+    font-family: 'Inter', sans-serif;
     font-size: 11px;
-    font-weight: 500;
-    color: ${T.lime};
-    background: rgba(202,255,0,0.08);
-    padding: 2px 8px;
-    border-radius: 4px;
-  }
-  .fac-price { font-size: 13px; font-weight: 600; }
-  .fac-price span { font-size: 11px; font-weight: 400; color: ${T.muted}; }
-  .fac-rating { font-size: 12px; color: ${T.lime}; margin-left: auto; font-weight: 500; }
-  .available-badge {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.06em;
+    font-weight: 600;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: ${T.success};
-    background: rgba(0,196,140,0.1);
-    padding: 2px 8px;
-    border-radius: 4px;
+    color: rgba(255,255,255,0.75);
+    margin-top: 4px;
+  }
+  .facility-card-body {
+    padding: 14px 16px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-width: 0;
+  }
+  .facility-card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    min-width: 0;
+  }
+  .facility-card-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+    flex: 1;
+  }
+  .facility-card-name {
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: ${T.white};
+  }
+  .facility-card-location {
+    font-size: 12px;
+    color: ${T.muted};
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .facility-card-rating {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    font-weight: 700;
+    color: ${T.lime};
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .facility-card-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .facility-card-chip {
+    display: inline-flex;
+    align-items: center;
+    width: fit-content;
+    padding: 5px 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(202,255,0,0.2);
+    background: rgba(202,255,0,0.1);
+    color: ${T.lime};
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .facility-card-chip-soft {
+    border-color: rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.04);
+    color: ${T.white};
+    letter-spacing: 0.04em;
+  }
+  .facility-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    font-size: 12px;
+    font-weight: 700;
+    color: ${T.lime};
+    padding-top: 4px;
+  }
+  .facility-card-link {
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
   }
 
   /* ── BOOKINGS LIST ── */
@@ -1081,4 +1203,3 @@ export const css = `
     .two-col-eq { grid-template-columns: 1fr; }
   }
 `;
-

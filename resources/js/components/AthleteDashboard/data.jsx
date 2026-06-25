@@ -4,10 +4,10 @@ import { T } from './theme.jsx';
 
 
 export const FACILITIES = [
-  { id: 1, name: "PhilSports Arena — Court A", city: "Pasig City, Metro Manila", sport: "Basketball", emoji: <CircleDot size={28} />, bg: "#1A3A5C", price: 350, rating: 4.9, reviews: 128, slots: 5 },
-  { id: 2, name: "Cebu Sports Complex Pool", city: "Cebu City, Cebu", sport: "Swimming", emoji: <Waves size={28} />, bg: "#0A2744", price: 200, rating: 4.7, reviews: 84, slots: 6 },
-  { id: 3, name: "Davao Racket Club", city: "Davao City, Davao del Sur", sport: "Tennis", emoji: <Target size={28} />, bg: "#1C4A1C", price: 450, rating: 4.8, reviews: 61, slots: 2 },
-  { id: 4, name: "Iligan Sports Complex", city: "Iligan City, Lanao del Norte", sport: "Basketball", emoji: <CircleDot size={28} />, bg: "#1A3A5C", price: 300, rating: 4.6, reviews: 42, slots: 3 },
+  { id: 1, name: "PhilSports Arena — Court A", city: "Pasig City, Metro Manila", sport: "Basketball", icon: "CircleDot", bg: "#1A3A5C", price: 350, rating: 4.9, reviews: 128, slots: 5 },
+  { id: 2, name: "Cebu Sports Complex Pool", city: "Cebu City, Cebu", sport: "Swimming", icon: "Waves", bg: "#0A2744", price: 200, rating: 4.7, reviews: 84, slots: 6 },
+  { id: 3, name: "Davao Racket Club", city: "Davao City, Davao del Sur", sport: "Tennis", icon: "Target", bg: "#1C4A1C", price: 450, rating: 4.8, reviews: 61, slots: 2 },
+  { id: 4, name: "Iligan Sports Complex", city: "Iligan City, Lanao del Norte", sport: "Basketball", icon: "CircleDot", bg: "#1A3A5C", price: 300, rating: 4.6, reviews: 42, slots: 3 },
 ];
 
 export const AI_COACHES = [
@@ -47,5 +47,5 @@ export const NAV_ITEMS = [
   { label: "Profile", icon: <User size={18} />, key: "profile" },
 ];
 
-export const SPORTS = ["All", <span><CircleDot size={16} /> Basketball</span>, <span><Waves size={16} /> Swimming</span>, <span><Target size={16} /> Tennis</span>, <span><CircleDot size={16} /> Football</span>, <span><Feather size={16} /> Badminton</span>, <span><Flame size={16} /> Boxing</span>];
+export const SPORTS = ["All", "Basketball", "Swimming", "Tennis", "Football", "Badminton", "Boxing"];
 

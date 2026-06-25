@@ -11,4 +11,5 @@ Route::middleware(['auth', 'role:facility_owner'])->prefix('facility_owner')->gr
     Route::get('/earnings', [DashboardController::class, 'index'])->name('earnings');
     Route::get('/reviews', [DashboardController::class, 'index'])->name('reviews');
     Route::get('/profile', [DashboardController::class, 'index'])->name('profile');
+    Route::get('/{any}', [DashboardController::class, 'index'])->where('any', '.*');
 });

@@ -43,9 +43,9 @@ export default function SearchPage() {
         ))}
       </div>
 
-      <div className="two-col">
+      <div className="two-col search-layout">
         {/* Results */}
-        <div className="card">
+        <div className="card search-results-card">
           <div className="card-header">
             <div className="card-title">Results — {filtered.length} facilities</div>
             <span className="card-link">Sort: Nearest ▾</span>
@@ -127,4 +127,3 @@ export default function SearchPage() {
     </>
   );
 }
-

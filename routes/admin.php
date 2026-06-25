@@ -10,4 +10,5 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::get('/verification', [DashboardController::class, 'index'])->name('verification');
     Route::get('/revenue', [DashboardController::class, 'index'])->name('revenue');
     Route::get('/bookings', [DashboardController::class, 'index'])->name('bookings');
+    Route::get('/{any}', [DashboardController::class, 'index'])->where('any', '.*');
 });
